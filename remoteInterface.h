@@ -33,25 +33,25 @@ typedef unsigned short pulseTime;
 
 // Define remote code timing constatns. Values are given in terms of timer counts using (Give clock conditions)
 
-#define START_LOW_MAX 9008
+#define START_LOW_MAX 12500 //9008
 #define START_LOW_MIN 8828
 
-#define START_HIGH_MAX 4475
+#define START_HIGH_MAX 7000 //4475
 #define START_HIGH_MIN 4312
 
-#define DATA_1_LOW_MAX 712
+#define DATA_1_LOW_MAX 1000 //712
 #define DATA_1_LOW_MIN 486
 
-#define DATA_1_HIGH_MAX 1713
+#define DATA_1_HIGH_MAX 2200 //1713
 #define DATA_1_HIGH_MIN 1523
 
-#define DATA_LOW_MAX 712	// The most extremem of the nearly identical low half-wave tiems
+#define DATA_LOW_MAX 1000 //712	// The most extremem of the nearly identical low half-wave tiems
 #define DATA_LOW_MIN 486	// These are valid for all data signals as well as the stop signal half-wave
 
-#define DATA_0_HIGH_MAX 570
+#define DATA_0_HIGH_MAX 800//570
 #define DATA_0_HIGH_MIN 450
 
-#define STOP_HIGH_MAX 39426
+#define STOP_HIGH_MAX 50000//39426
 #define STOP_HIGH_MIN 39242
 
 // Define the bits for the data reading flags

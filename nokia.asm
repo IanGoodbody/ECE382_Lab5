@@ -101,7 +101,8 @@ init:
 	mov.b	#CALBC1_8MHZ, &BCSCTL1				; Setup fast clock
 	mov.b	#CALDCO_8MHZ, &DCOCTL
 
-	bis.w	#TASSEL_1 | MC_2, &TACTL
+	mov.w 	#0xFFFF, &TACCR0
+	bis.w	#TASSEL_2 | MC_1, &TACTL
 	bic.w	#TAIFG, &TACTL
 
 	mov.b	#LCD1202_CS_PIN|LCD1202_BACKLIGHT_PIN|LCD1202_SCLK_PIN|LCD1202_MOSI_PIN, &P1OUT

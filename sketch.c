@@ -8,6 +8,8 @@
 #include <msp430g2553.h>
 #include "remoteInterface.h"
 
+#define BLACK 0xFF
+
 extern void init();
 extern void initNokia();
 extern void clearDisplay();
@@ -15,13 +17,12 @@ extern void drawBlock(unsigned char row, unsigned char col, unsigned char colore
 
 void main() {
 
-	unsigned char	x, y, button_press, color;
+	unsigned char	x, y, color;
+	remoteCode packet;
 
 	// === Initialize system ================================================
 	IFG1=0; /* clear interrupt flag1 */
 	WDTCTL=WDTPW+WDTHOLD; /* stop WD */
-	button_press = FALSE;
-
 
 	init();
 	initNokia();
@@ -29,6 +30,10 @@ void main() {
 	x=4;		y=4;
 	color = BLACK;
 	drawBlock(y,x, color);
+
+	initIRSensor();
+	_enable_interrupt();
+	TACTL &= ~TAIE;
 
 	while(1)
 	{
@@ -45,13 +50,13 @@ void main() {
 				if(y > 0) y--;
 				break;
 			case DOWN_BUTTON:
-				if(y < 8) y++;
+				if(y < 7) y++;
 				break;
 			case LEFT_BUTTON:
-				if(x < 0) x--;
+				if(x > 0) x--;
 				break;
 			case RIGHT_BUTTON:
-				if (x > 12) x++;
+				if (x < 11) x++;
 				break;
 			case ENTER_BUTTON:
 				color = ~color;

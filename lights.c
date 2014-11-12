@@ -46,19 +46,19 @@ int main(void)
 			packet = translatePattern();
 			switch(packet)
 			{
-			case BUTTON_1:
+			case UP_BUTTON:
 				P1OUT |= BIT0;
 				P1OUT &= ~BIT6;
 				break;
-			case BUTTON_2:
+			case DOWN_BUTTON:
 				P1OUT |= BIT6;
 				P1OUT &= ~BIT0;
 				break;
-			case BUTTON_3:
+			case LEFT_BUTTON:
 				P1OUT |= BIT6;
 				P1OUT |= BIT0;
 				break;
-			case BUTTON_4:
+			case RIGHT_BUTTON:
 				P1OUT &= ~BIT6;
 				P1OUT &= ~BIT0;
 				break;

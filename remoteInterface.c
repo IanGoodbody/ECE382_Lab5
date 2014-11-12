@@ -143,6 +143,6 @@ __interrupt void pinChange (void)
 #pragma vector = TIMER0_A1_VECTOR
 __interrupt void timerOverflow (void)
 {
-	resetSensor();
+	//resetSensor();
 	TACTL &= ~TAIFG;
 }
