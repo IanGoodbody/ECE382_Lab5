@@ -2,7 +2,10 @@
  * sketch.c
  *
  *  Created on: Nov 10, 2014
- *      Author: C16Ian.Goodbody
+ *      Author: Ian Goodbody
+ *	  Function: Creates an etch-a-sketch program which can draw two colors of blocks to 
+ *				a screen and maintins the image drawn to the screen. The program is controled
+ *				using the remote arrow buttons and the enter which switches colors.
  */
 
 #include <msp430g2553.h>
@@ -37,6 +40,8 @@ void main() {
 
 	while(1)
 	{
+		// Similar functions to the light control method
+		// It should be fairly self explanitory
 		if(packetReadFlags & ERROR_FLG)
 		{
 			resetSensor();

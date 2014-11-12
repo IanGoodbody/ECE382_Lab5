@@ -2,40 +2,58 @@
  * remoteInterface.c
  *
  *  Created on: Nov 9, 2014
- *      Author: C16Ian.Goodbody
+ *      Author: Ian Goodbody
+ *    Function: The functions here are used to implement the remote interface functionality.
+ *				It provides functions to initiate the sensor pins and timer, translate timing
+ *				signals into 1's and 0's, reset the sensor in the event of an error, and 
+ *				provides the interrupt service routine to read in each signal
  */
 
 #include <msp430g2553.h>
 #include "remoteInterface.h"
 
+/*
+ * translatePattern(): translates the values in the packet times array to 1's and 0's based
+ * on the threshold values defined in the the file header.
+ *
+ * Returns: the a 32 bit number contining the code from the remote input
+ *			0 if an error occured in translation
+ */
 remoteCode translatePattern()
 {
-	remoteCode packet = 0x00000000;
-	remoteCode bitMask = 0x00000001;
+	remoteCode packet = 0x00000000; // Initialize the return value as zero
+	remoteCode bitMask = 0x00000001; // The bit mask wich allows the loop to rotate through all 32 bits
 
 	int i;
 	for(i = SIGNAL_LENGTH-1; i >= 0; i--)
-	{
-		// Check that the high data pulse are for a zero or one signal.
+	{ // Rotate from LSB to MSB and either set or clear the bits according to the timing signal;
 		if(signalTimes[i] >= DATA_1_HIGH_MIN && signalTimes[i] <= DATA_1_HIGH_MAX)
+		{
 			packet |= bitMask;
+		}
 		else if (signalTimes[i] >= DATA_0_HIGH_MIN && signalTimes[i] <= DATA_0_HIGH_MAX)
-			packet &= ~bitMask; // Condition only necessary for redundancy's sake
+		{
+			packet &= ~bitMask; // The return signal is only necessary for redundancy's sake
+		}
 		else
 		{
-			// Packet timing did not match either a high or low signal, throw the error.
+			// Packet timing did not match either a high or low signal, throw the error null.
 			return 0x00000000;
 		}
-		bitMask = bitMask << 1;
+		bitMask = bitMask << 1; // Rotate the masking bit 1 towards the MSB
 	}
 	return packet;
 }
 
+/*
+ * initIRSensor(): set up theh values necessary for the remote interface operation
+ */
 void initIRSensor()
 {
 	int i;
 	for(i = SIGNAL_LENGTH -1; i >= 0; i--)
 	{
+		// Initialize the timing array to all zeros
 		signalTimes[i] = 0x00000000;
 	}
 
@@ -58,6 +76,9 @@ void initIRSensor()
 	P2IE |= BIT6;
 }
 
+/*
+ * resetSensor(): resets the remote interface flags, pins, and array in the event of an error 
+ */ 
 void resetSensor()
 {
 	signalTimesWriteIndex = SIGNAL_LENGTH - 1;
@@ -67,6 +88,11 @@ void resetSensor()
 	P2IFG &= ~BIT6;
 }
 
+/*
+ * __interrupt void pinChange(void): a gargantuine method which records the high timer coutns,
+ * and checks that the different control signals, start and end, and the low half waves are within
+ * the timing threshold
+ */
 #pragma vector = PORT2_VECTOR			// This is from the MSP430G2553.h file
 __interrupt void pinChange (void)
 {

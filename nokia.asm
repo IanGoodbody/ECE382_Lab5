@@ -4,6 +4,8 @@
 ;	MSP430G2553
 ;	Put some pixels on the Nokia 1202 Diaplsy
 ;-------------------------------------------------------------------------------
+;	Basic block drawing driver used for the etch e sketch program
+;-------------------------------------------------------------------------------
 	.cdecls C,LIST,"msp430.h"		; BOILERPLATE	Include device header file
 
 
