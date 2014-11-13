@@ -66,9 +66,25 @@ Values are recorded from TAR, units of counts
 
 ##### Table 3: Button codes
 Values were interpreted from the logical analizer waveforms
+
 |Button| Hex Code|
 |:-:|:-:|
-|0|
+|0|0xF50AFF00|
+|1|0xFF00FF00|
+|2|0XFE01FF00|
+|3|0xFD02FF00|
+|4|0xFC03FF00|
+|5|0xFB04FF00|
+|6|0xFA05FF00|
+|7|0xF906FF00|
+|8|0xF807FF00|
+|9|0xF706FF00|
+|UP|0xEF10FF00|
+|DOWN|0xEE11FF00|
+|LEFT|0xED12FF00|
+|RIGHT|0xEC13FF00|
+|ENTER|0xF10EFF00|
+|POWER|0xF30CFF00|
 
 The statistical analysis of the data to generate the confidence interevals took advantage of the fact that most error
 distributions are approximately normal (the data sets are too small to deffinitively show a normal distribution so the 
